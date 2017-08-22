@@ -50,7 +50,7 @@ void Scenario::parseScenarioConfig(const Value& sc, bool setDefaults) {
 	if (drivingMode.IsArray()) {
 		if (!drivingMode[0].IsNull()) _drivingMode = drivingMode[0].GetInt();
 		else if (setDefaults)  _drivingMode = rand() % 4294967296;
-		if (drivingMode[1].IsNull()) _setSpeed = drivingMode[1].GetFloat(); 
+		if (!drivingMode[1].IsNull()) _setSpeed = drivingMode[1].GetFloat(); 
 		else if (setDefaults) _setSpeed = 1.0*(rand() % 20);
 	}
 	else if (setDefaults) {
@@ -579,15 +579,18 @@ void Scenario::setPedsList(){
 
 
 void Scenario::setThrottle(){
-	d["throttle"] = getFloatValue(vehicle, 0x90C);
+	//d["throttle"] = getFloatValue(vehicle, 0x90C);
+	d["throttle"] = getFloatValue(vehicle, 0x8A4);
 }
 
 void Scenario::setBrake(){
-	d["brake"] = getFloatValue(vehicle, 0x910);
+	//d["brake"] = getFloatValue(vehicle, 0x910);
+	d["brake"] = getFloatValue(vehicle, 0x8A8);
 }
 
 void Scenario::setSteering(){
-	d["steering"] = getFloatValue(vehicle, 0x904) / -0.7;
+	//d["steering"] = getFloatValue(vehicle, 0x904) / -0.7;
+	d["steering"] = getFloatValue(vehicle, 0x89C) / -0.7;
 }
 
 void Scenario::setSpeed(){
