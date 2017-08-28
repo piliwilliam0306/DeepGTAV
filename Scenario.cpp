@@ -234,12 +234,18 @@ void Scenario::run() {
 		Vector3 rotation = ENTITY::GET_ENTITY_ROTATION(vehicle, 1);
 		CAM::SET_CAM_ROT(camera, rotation.x, rotation.y, rotation.z, 1);
 
+		//add road vibration to camera
+		CAM::SHAKE_CAM(camera, "ROAD_VIBRATION_SHAKE", speed);
+
 		if (_drivingMode < 0) {
 			CONTROLS::_SET_CONTROL_NORMAL(27, 71, currentThrottle); //[0,1]
 			CONTROLS::_SET_CONTROL_NORMAL(27, 72, currentBrake); //[0,1]
 			CONTROLS::_SET_CONTROL_NORMAL(27, 59, currentSteering); //[-1,1]
 		}
 		
+		//disable traffic
+		VEHICLE::SET_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0);
+
 		float delay = ((float)(now - lastSafetyCheck)) / CLOCKS_PER_SEC;
 		if (delay > 10) {
 			lastSafetyCheck = std::clock();
